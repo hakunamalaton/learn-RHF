@@ -1,10 +1,92 @@
-export default function Ex2_CustomInputs() {
+import { type Control, type RegisterOptions, useForm, useController } from 'react-hook-form';
+
+interface FormData {
+  starRating: number;
+  toggleGroup: string;
+}
+
+function StarRating (
+  { name, control, rules }: {
+    name: string;
+    control: Control<FormData>;
+    rules?: RegisterOptions;
+  }) {
+    const {
+      field,
+    } = useController<FormData>({
+      name,
+      control,
+      rules,
+    })
+
+    return (
+      <div>
+        {new Array(5).fill(0).map((_, index) => <div
+          key={index}
+          onClick={() => {
+            field.onChange(index + 1);
+          }}
+        >{
+          index < Number(field.value) ? '★' : '☆'
+        }</div>)}
+      </div>
+    )
+}
+
+function ToggleGroup ({
+  name,
+  control,
+  options,
+  rules,
+}: {
+  name: string;
+  control: Control<FormData>;
+  options: string[];
+  rules?: RegisterOptions;
+}) {
+
+  const {
+    field,
+  } = useController<FormData>({
+    name,
+    control,
+    rules,
+  })
+
   return (
     <div>
-      <h1>Custom Inputs</h1>
-      <p>In this exercise, we will create a custom input component and integrate it with React Hook Form.</p>
-      <p>Try to create a custom input component that accepts props for value, onChange, and any other necessary attributes. Then, use the useForm hook to manage the form state and handle form submission.</p>
-      <p>Remember to validate the input and display error messages if the validation fails.</p>
+      {options.map((option) => <input
+        key={option}
+        type="checkbox"
+        value={option}
+        checked={field.value === option}
+        onChange={(e) => {
+          const isChecked = e.target.checked;
+          field.onChange(isChecked ? option : '');
+        }}
+      />)}
     </div>
+  )
+}
+
+export default function Ex2_CustomInputs() {
+  const { control, handleSubmit } = useForm<FormData>({
+    defaultValues: {
+      starRating: 0,
+      toggleGroup: '',
+    },
+  });
+
+  function onSubmit (data: FormData) {
+    console.log(data);
+  }
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <StarRating control={control} name="starRating" />
+      <ToggleGroup control={control} name="toggleGroup" options={['Option 1', 'Option 2', 'Option 3']} />
+
+      <input type="submit" />
+    </form>
   );
 }
