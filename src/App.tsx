@@ -7,6 +7,7 @@ import Ex4LivePreview from './exercises/Ex4_LivePreview'
 import Ex4LivePreviewSample from './exercises/Ex4_LivePreview_Sample'
 import Ex5_FormStatus from './exercises/Ex5_FormStatus'
 import Ex5FormStatusSample from './exercises/Ex5_FormStatus_Sample'
+import Ex6Invoice from './exercises/Ex6_Invoice'
 
 function App() {
 
@@ -19,7 +20,8 @@ function App() {
       {/* <Ex4LivePreview /> */}
       {/* <Ex4LivePreviewSample /> */}
       {/* <Ex5_FormStatus /> */}
-      <Ex5FormStatusSample />
+      {/* <Ex5FormStatusSample /> */}
+      <Ex6Invoice />
     </>
   )
 }
